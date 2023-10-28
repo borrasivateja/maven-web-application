@@ -17,14 +17,14 @@ stage('ExeuteSonarQubeReport'){
 sh "${mavenHome}/bin/mvn sonar:sonar"
 }
 
-stage('UptoArtifactIntoNexusRepo'){
+stage('UploadArtifactIntoNexusRepo'){
 sh "${mavenHome}/bin/mvn deploy"
 }
 
 stage('DeployAppintoTomcatServer')
 {
 sshagent(['c67abd01-eade-4e6e-b373-2608bbc04414']) {
-scp -o  StrictHostKeyChecking=no target/maven-web-application.war  ec2-user@35.154.201.108:/opt/apache-tomcat-9.0.82/webapps
+sh "scp -o  StrictHostKeyChecking=no target/maven-web-application.war  ec2-user@35.154.201.108:/opt/apache-tomcat-9.0.82/webapps/"
     
 }
 
